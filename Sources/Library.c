@@ -1,74 +1,119 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-void printFields(char fields[][20], int fieldCount) {
-    printf("분야 목록:\n");
-    for (int i = 0; i < fieldCount; i++) {
-        printf(" %d. %s\n", i + 1, fields[i]);
-    }
-}
-// 분야 출력
-/*
-void printBooks(int choiceNumber, char fields, int fieldCount) {
+// 도서관 구조체
+struct library {
+	char book_name[20];
+	char author[20];
+	char fields[20];
+	char publisher[20];
+	int pages;
+	float price;
+};
 
-    printf("해당 분야 도서 목록");
-    for (int i = 0; i < fieldCount; i++) {
-        printf("");
-    }
-}
-*/
+int main()
+{
+
+	struct library lib[100];
+
+	char field_nm[30], bk_nm[30];
 
 
-int main() {
-    char fields[][20] = { "문학", "자연과학", "사회과학", "공학", "역사", "예술" };
-    // 분야 배열
-    int fieldCount = sizeof(fields) / sizeof(fields[0]);
-    int choiceNumber;
+	int i = 0; int input = 0; int count = 0;
 
-    char fields_Literature[][20] = { "문학1","문학2" };
-    char fields_natural_science[][20] = { "자연과학1","자연과학2" };
-    char fields_social_science[][20] = { "사회과학1","사회과학2" };
-    char fields_Engineering[][20] = { "공학1","공학2" };
-    char fields_History[][20] = { "역사1","역사2" };
-    char fields_Art[][20] = { "예술1","예술2" };
 
-    printFields(fields, fieldCount);
-    printf("원하는 분야 번호를 입력하시오 : ");
-    scanf_s("%d", &choiceNumber);
-    int bookCount = 2;
-    if (choiceNumber < 0 && choiceNumber>6) {
-        printf("잘못된 선택입니다. 프로그램을 종료합니다");
+	while (input != 5) {
 
-        return -1;
-    }
-    switch (choiceNumber)
-    {
-    case 1:
-        for (int i = 0; i < bookCount; i++) {
-            printf("%s", fields_Literature[i]);
-        }
-        break;
+		printf("----------------\n"
+			"도서 관리 시스템\n"
+			"----------------\n");
+		printf("\n\n");
+		printf("1. 도서 정보 추가 (관리자 전용)\n"
+			"2. 도서 정보 확인\n"
+			"3. 장르별 도서 확인\n"
+			"4. 도서 수 확인\n"
+			"5. 프로그램 종료\n");
 
-    case 2:
 
-        break;
+		printf("\n\n선택지를 입력하시오: ");
+		scanf_s("%d", &input);
+		int password;
+		switch (input) {
 
-    case 3:
+			// 책 정보 입력
+		case 1:
+			printf("관리자 암호를 입력하시오 : ");
+			scanf_s("%d", &password);
+			if (password == 123) {
 
-        break;
+				printf("도서의 이름을 입력하시오 : ");
+				scanf_s("%s", lib[i].book_name, (int)sizeof(lib[i].book_name));
 
-    case 4:
+				printf("작가의 이름을 입력하시오 : ");
+				scanf_s("%s", lib[i].author, (int)sizeof(lib[i].author));
 
-        break;
+				printf("도서의 장르를 입력하시오 : ");
+				scanf_s("%s", &lib[i].fields, (int)sizeof(lib[i].fields));
 
-    case 5:
+				printf("도서의 출판사를 입력하시오 : ");
+				scanf_s("%s", &lib[i].publisher, (int)sizeof(lib[i].publisher));
 
-        break;
+				printf("전체 페이지를 입력하시오 : ");
+				scanf_s("%d", &lib[i].pages, (int)sizeof(lib[i].pages));
 
-    case 6:
+				printf("도서의 가격을 입력하시오 :  ");
+				scanf_s("%f", &lib[i].price, (int)sizeof(lib[i].price));
+				printf("\n\n");
+				count++;
 
-        break;
+				break;
+			}
+			else
+			{
+				printf("올바르지 못한 암호입니다.\n\n");
 
-    }
+				break;
+			}
 
-    return 0;
+			// 보유 장르 출력
+		case 2:
+			printf("보유하고 있는 장르 목록 \n");
+			for (i = 0; i < count; i++) {
+				printf("%d. %s\n", i + 1, lib[i].fields);
+			}
+			printf("\n\n");
+			break;
+			// 장르별 도서 출력
+		case 3:
+			printf("장르명을 입력하시오 : ");
+			scanf_s("%s", field_nm, (int)sizeof(field_nm));
+			for (i = 0; i < count; i++) {
+
+				if (strcmp(field_nm, lib[i].fields) == 0) {
+					printf("도서의 정보를 출력합니다. \n");
+					printf("-------------------\n");
+					printf("도서명 : %s \n", lib[i].book_name);
+					printf("작가명 : %s \n", lib[i].author);
+					printf("도서 출판사 : %s \n", lib[i].publisher);
+					printf("도서 페이지 :  %d \n ", lib[i].pages);
+					printf("도서 가격 % f \n", lib[i].price);
+					printf("-------------------\n\n");
+				}
+				else {
+					printf("장르를 잘못 입력하셨습니다.\n");
+					printf("프로그램 처음으로 돌아갑니다\n\n");
+				}
+			}
+			break;
+
+			// 총 도서수 출력
+		case 4:
+			printf("\n 총 도서 수:  %d\n", count);
+			break;
+		case 5:
+			exit(0);
+		}
+	}
+	return 0;
 }
