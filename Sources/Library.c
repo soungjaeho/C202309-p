@@ -20,6 +20,7 @@ int main()
 	char field_nm[30], bk_nm[30];
 
 
+
 	int i = 0; int input = 0; int count = 0;
 
 
@@ -35,7 +36,7 @@ int main()
 			"4. 도서 수 확인\n"
 			"5. 프로그램 종료\n");
 
-
+		
 		printf("\n\n선택지를 입력하시오: ");
 		scanf_s("%d", &input);
 		int password;
@@ -54,10 +55,10 @@ int main()
 				scanf_s("%s", lib[i].author, (int)sizeof(lib[i].author));
 
 				printf("도서의 장르를 입력하시오 : ");
-				scanf_s("%s", &lib[i].fields, (int)sizeof(lib[i].fields));
+				scanf_s("%s", lib[i].fields, (int)sizeof(lib[i].fields));
 
 				printf("도서의 출판사를 입력하시오 : ");
-				scanf_s("%s", &lib[i].publisher, (int)sizeof(lib[i].publisher));
+				scanf_s("%s", lib[i].publisher, (int)sizeof(lib[i].publisher));
 
 				printf("전체 페이지를 입력하시오 : ");
 				scanf_s("%d", &lib[i].pages, (int)sizeof(lib[i].pages));
@@ -76,19 +77,37 @@ int main()
 				break;
 			}
 
-			// 보유 장르 출력
 		case 2:
-			printf("보유하고 있는 장르 목록 \n");
-			for (i = 0; i < count; i++) {
-				printf("%d. %s\n", i + 1, lib[i].fields);
+			printf("보유하고 있는 장르 목록\n");
+
+			// 장르 
+			char printedGenres[20][20];
+			int printedCount = 0;
+
+			for (int j = 0; j < count; j++) {
+				// 현재 도서의 장르가 이미 출력한 장르 목록에 없으면 출력
+				int genrePrinted = 0;
+				for (int k = 0; k < printedCount; k++) {
+					if (strcmp(lib[j].fields, printedGenres[k]) == 0) {
+						genrePrinted = 1;
+						break;
+					}
+				}
+
+				if (!genrePrinted) {
+					printf("%s\n", lib[j].fields);
+					strcpy_s(printedGenres[printedCount], 20, lib[j].fields);
+					printedCount++;
+				}
 			}
-			printf("\n\n");
 			break;
-			// 장르별 도서 출력
+
 		case 3:
 			printf("장르명을 입력하시오 : ");
 			scanf_s("%s", field_nm, (int)sizeof(field_nm));
+			int found = 0;
 			for (i = 0; i < count; i++) {
+				
 
 				if (strcmp(field_nm, lib[i].fields) == 0) {
 					printf("도서의 정보를 출력합니다. \n");
@@ -99,8 +118,10 @@ int main()
 					printf("도서 페이지 :  %d \n ", lib[i].pages);
 					printf("도서 가격 % f \n", lib[i].price);
 					printf("-------------------\n\n");
+					found = 1;
 				}
-				else {
+
+				if (!found) {
 					printf("장르를 잘못 입력하셨습니다.\n");
 					printf("프로그램 처음으로 돌아갑니다\n\n");
 				}
