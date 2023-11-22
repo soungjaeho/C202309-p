@@ -66,6 +66,7 @@ int main()
 				printf("도서의 가격을 입력하시오 :  ");
 				scanf_s("%f", &lib[i].price, (int)sizeof(lib[i].price));
 				printf("\n\n");
+				i++; // i가 변함이없어서 계속 같은위치에 저장 -> 책 1권만 저장중이었던거라 case 3 오류
 				count++;
 
 				break;
@@ -110,7 +111,7 @@ int main()
 				
 
 				if (strcmp(field_nm, lib[i].fields) == 0) {
-					printf("도서의 정보를 출력합니다. \n");
+					printf("장르 %s에 속한 도서를 출력합니다. \n", field_nm);
 					printf("-------------------\n");
 					printf("도서명 : %s \n", lib[i].book_name);
 					printf("작가명 : %s \n", lib[i].author);
