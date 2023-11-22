@@ -8,6 +8,7 @@ struct library {
 	char author[20];
 	char fields[20];
 	char publisher[20];
+	int quantity;
 	int pages;
 	float price;
 };
@@ -33,12 +34,13 @@ int main()
 		printf("1. 도서 정보 추가 (관리자 전용)\n"
 			"2. 보유 장르 확인\n"
 			"3. 장르별 도서 확인\n"
-			"4. 도서 수 확인\n"
-			"5. 프로그램 종료\n");
+			"4. 도서 종류수 확인\n"
+			"5. 도서 대출\n"
+			"6. 프로그램 종료\n");
 
-		
 		printf("\n\n선택지를 입력하시오: ");
 		scanf_s("%d", &input);
+		
 		int password;
 		switch (input) {
 
@@ -46,6 +48,7 @@ int main()
 		case 1:
 			printf("관리자 암호를 입력하시오 : ");
 			scanf_s("%d", &password);
+			// 정보 입력은 관리자가 해야할거같아서 추가 기본 암호 = 123
 			if (password == 123) {
 
 				printf("도서의 이름을 입력하시오 : ");
@@ -65,11 +68,16 @@ int main()
 
 				printf("도서의 가격을 입력하시오 :  ");
 				scanf_s("%f", &lib[i].price, (int)sizeof(lib[i].price));
+
+				printf("도서의 수량을 입력하시오 :  ");
+				scanf_s("%d", &lib[i].quantity, (int)sizeof(lib[i].quantity));
+
 				printf("\n\n");
-				i++; // i가 변함이없어서 계속 같은위치에 저장 -> 책 1권만 저장중이었던거라 case 3 오류
 				count++;
+				i++;
 
 				break;
+
 			}
 			else
 			{
@@ -108,7 +116,7 @@ int main()
 			scanf_s("%s", field_nm, (int)sizeof(field_nm));
 			int found = 0;
 			for (i = 0; i < count; i++) {
-				
+
 
 				if (strcmp(field_nm, lib[i].fields) == 0) {
 					printf("장르 %s에 속한 도서를 출력합니다. \n", field_nm);
@@ -118,24 +126,44 @@ int main()
 					printf("도서 출판사 : %s \n", lib[i].publisher);
 					printf("도서 페이지 :  %d \n ", lib[i].pages);
 					printf("도서 가격 % f \n", lib[i].price);
+					printf("보유수량 % d \n", lib[i].quantity);
 					printf("-------------------\n\n");
 					found = 1;
 				}
-
-				if (!found) {
-					printf("장르를 잘못 입력하셨습니다.\n");
-					printf("프로그램 처음으로 돌아갑니다\n\n");
-				}
 			}
+			if (!found) {
+				printf("장르를 잘못 입력하셨습니다.\n");
+				printf("프로그램 처음으로 돌아갑니다\n\n");
+			}
+
 			break;
 
 			// 총 도서수 출력
 		case 4:
-			printf("\n 총 도서 수:  %d\n", count);
+			printf("\n 총 도서의 종류:  %d\n", count);
 			break;
 		case 5:
+			printf("대출하려는 도서명을 입력하시오: ");
+			scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
+			for (i = 0; i < count; i++) {
+				if (strcmp(bk_nm, lib[i].book_name) == 0) {
+					if (lib[i].quantity == 0) {
+						printf("해당 도서는 전권 대출중입니다. \n");
+						break;
+					}
+					else if (lib[i].quantity == NULL) {
+						printf("잘못입력하셨습니다.\n");
+						break;
+					}
+					lib[i].quantity -= 1;
+					printf("대출 완료");
+				}
+			}
+
+		case 6:
 			exit(0);
 		}
+
 	}
 	return 0;
 }
