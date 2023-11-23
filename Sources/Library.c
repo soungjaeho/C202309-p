@@ -25,7 +25,7 @@ int main()
 	int i = 0; int input = 0; int count = 0;
 
 
-	while (input != 5) {
+	while (input != 6) {
 
 		printf("----------------\n"
 			"도서 관리 시스템\n"
@@ -34,7 +34,7 @@ int main()
 		printf("1. 도서 정보 추가 (관리자 전용)\n"
 			"2. 보유 장르 확인\n"
 			"3. 장르별 도서 확인\n"
-			"4. 도서 종류수 확인\n"
+			"4. 도서 수 확인\n"
 			"5. 도서 대출\n"
 			"6. 프로그램 종료\n");
 
@@ -142,9 +142,12 @@ int main()
 		case 4:
 			printf("\n 총 도서의 종류:  %d\n", count);
 			break;
+			// <- case 4까지 기능 완성
 		case 5:
 			printf("대출하려는 도서명을 입력하시오: ");
 			scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
+			/*
+			if (count == 1)printf("책이없다\n");
 			for (i = 0; i < count; i++) {
 				if (strcmp(bk_nm, lib[i].book_name) == 0) {
 					if (lib[i].quantity == 0) {
@@ -159,6 +162,8 @@ int main()
 					printf("대출 완료");
 				}
 			}
+			*/
+			break;
 
 		case 6:
 			exit(0);
