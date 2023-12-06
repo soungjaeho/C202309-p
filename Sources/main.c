@@ -13,6 +13,12 @@ struct library {
   float price;
 };
 
+// 대출한 도서 정보 구조체
+struct loan_history {
+  char book_name[20];
+  int quantity;
+};
+
 // 함수 원형 선언
 void addBook(struct library lib[], int* count);
 void displayGenres(struct library lib[], int count);
@@ -26,7 +32,7 @@ int main() {
   int count = 0;
   int input = 0;
 
-  while (input != 6) {
+  while (1) {
     printf("--------------------\n");
     printf("★도서 관리 시스템★\n");
     printf("--------------------\n\n");
@@ -95,6 +101,7 @@ void addBook(struct library lib[], int* count) {
 
     printf("도서의 수량을 입력하시오 :  ");
     scanf_s("%d", &lib[*count].quantity, (int)sizeof(lib[*count].quantity));
+
 
     printf("\n도서 추가 완료!\n\n");
     (*count)++;
