@@ -28,9 +28,11 @@ void borrowBook(struct library lib[], int count);
 
 int main() {
   struct library lib[100];
+  struct loan_history loanHistory[100];
   int i = 0;
   int count = 0;
   int input = 0;
+  int loanCount = 0;
 
   while (1) {
     printf("--------------------\n");
@@ -41,7 +43,7 @@ int main() {
         "2. 보유 장르 확인\n"
         "3. 장르별 도서 확인\n"
         "4. 도서 종류 수 확인\n"
-        "5. 도서 대출 <----  미구현\n"
+        "5. 도서 대출 \n"
         "6. 프로그램 종료\n\n");
 
     printf("선택지를 입력하시오: ");
@@ -61,7 +63,7 @@ int main() {
         displayBookCount(lib, count);
         break;
       case 5:
-        borrowBook(lib, count);
+        borrowBook(lib, count, loanHistory, &loanCount);
         break;
       case 6:
         exit(0);
@@ -101,7 +103,6 @@ void addBook(struct library lib[], int* count) {
 
     printf("도서의 수량을 입력하시오 :  ");
     scanf_s("%d", &lib[*count].quantity, (int)sizeof(lib[*count].quantity));
-
 
     printf("\n도서 추가 완료!\n\n");
     (*count)++;
@@ -170,9 +171,11 @@ void displayBookCount(struct library lib[], int count) {
 }
 
 // 도서 대출 함수
-void borrowBook(struct library lib[], int count) {
+void borrowBook(struct library lib[], int count,
+                struct loan_history loanHistory[], int* loanCount) {
   char bk_nm[30];
   int found = 0;
+
   printf("대출하려는 도서명을 입력하시오: ");
   scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
 
@@ -181,13 +184,20 @@ void borrowBook(struct library lib[], int count) {
       if (lib[i].quantity == 0) {
         printf("해당 도서는 전권 대출중입니다. \n");
       } else {
+        strcpy_s(loanHistory[*loanCount].book_name, 20, lib[i].book_name);
+        loanHistory[*loanCount].quantity = 1;
+
         lib[i].quantity -= 1;
+
+        (*loanCount)++;
+
         printf("대출 완료\n");
       }
       found = 1;
       break;
     }
   }
+
   if (!found) {
     printf(
         "도서명을 잘못 입력하셨습니다.\n"
