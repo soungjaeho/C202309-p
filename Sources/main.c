@@ -25,6 +25,7 @@ void displayGenres(struct library lib[], int count);
 void displayBooksByGenre(struct library lib[], int count);
 void displayBookCount(struct library lib[], int count);
 void borrowBook(struct library lib[], int count);
+void displayBorrowedBooks(struct loan_history loanHistory[], int loanCount);
 
 int main() {
   struct library lib[100];
@@ -44,6 +45,7 @@ int main() {
         "3. 장르별 도서 확인\n"
         "4. 도서 종류 수 확인\n"
         "5. 도서 대출 \n"
+        "6. 대출한 도서 목록\n"
         "6. 프로그램 종료\n\n");
 
     printf("선택지를 입력하시오: ");
@@ -66,6 +68,9 @@ int main() {
         borrowBook(lib, count, loanHistory, &loanCount);
         break;
       case 6:
+        displayBorrowedBooks(loanHistory, loanCount);
+        break;
+      case 7:
         exit(0);
       default:
         printf(
@@ -150,9 +155,14 @@ void displayBooksByGenre(struct library lib[], int count) {
       printf("도서명 : %s \n", lib[i].book_name);
       printf("작가명 : %s \n", lib[i].author);
       printf("도서 출판사 : %s \n", lib[i].publisher);
-      printf("도서 페이지 :  %d \n ", lib[i].pages);
+      printf("도서 페이지 : %d \n", lib[i].pages);
       printf("도서 가격 % f \n", lib[i].price);
       printf("보유수량 % d \n", lib[i].quantity);
+      if (lib[i].quantity == 0) {
+        printf("대출불가!\n");
+      } else {
+        printf("대출가능!\n");
+      }
       printf("-------------------\n\n");
       found = 1;
     }
@@ -175,7 +185,10 @@ void borrowBook(struct library lib[], int count,
                 struct loan_history loanHistory[], int* loanCount) {
   char bk_nm[30];
   int found = 0;
-
+  if (count == 0) {
+    printf("현재 도서관에 저장되어 있는 도서가 없습니다.\n");
+    return;
+  }
   printf("대출하려는 도서명을 입력하시오: ");
   scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
 
@@ -202,5 +215,16 @@ void borrowBook(struct library lib[], int count,
     printf(
         "도서명을 잘못 입력하셨습니다.\n"
         "프로그램 처음으로 돌아갑니다\n\n");
+  }
+}
+void displayBorrowedBooks(struct loan_history loanHistory[], int loanCount) {
+  if (loanCount == 0) {
+    printf("대출한 도서가 없습니다.\n");
+    return;
+  }
+
+  printf("대출한 도서의 목록을 출력합니다.\n");
+  for (int i = 0; i < loanCount; i++) {
+    printf("%d . 대출 도서명: %s\n", i + 1, loanHistory[i].book_name);
   }
 }
