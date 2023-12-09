@@ -198,7 +198,8 @@ void borrowBook(struct library lib[], int count,
         printf("해당 도서는 전권 대출중입니다. \n");
       } else {
         strcpy_s(loanHistory[*loanCount].book_name, 20, lib[i].book_name);
-        loanHistory[*loanCount].quantity = 1;
+        loanHistory[*loanCount].quantity = 0; // 대출 수량 초기화
+        loanHistory[*loanCount].quantity += 1;
 
         lib[i].quantity -= 1;
 
@@ -225,6 +226,8 @@ void displayBorrowedBooks(struct loan_history loanHistory[], int loanCount) {
 
   printf("대출한 도서의 목록을 출력합니다.\n");
   for (int i = 0; i < loanCount; i++) {
-    printf("%d . 대출 도서명: %s\n", i + 1, loanHistory[i].book_name);
+    printf(
+        "%d . 대출 도서명: %s / 대출수량: %d \n"
+        , i + 1,loanHistory[i].book_name, loanHistory[i].quantity);
   }
 }
