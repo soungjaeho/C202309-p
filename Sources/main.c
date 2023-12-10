@@ -24,7 +24,8 @@ int main() {
         "4. 도서 종류 수 확인\n"
         "5. 도서 대출 \n"
         "6. 대출한 도서 목록\n"
-        "7. 프로그램 종료\n\n");
+        "7. 도서 반납"
+        "8. 프로그램 종료\n\n");
 
     printf("선택지를 입력하시오: ");
     scanf_s("%d", &input);
@@ -49,6 +50,9 @@ int main() {
         displayBorrowedBooks(loanHistory, loanCount);
         break;
       case 7:
+        returnBook(lib, count, loanHistory, &loanCount);
+        break;
+      case 8:
         exit(0);
       default:
         printf(

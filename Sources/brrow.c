@@ -56,3 +56,47 @@ void displayBorrowedBooks(struct loan_history loanHistory[], int loanCount) {
            loanHistory[i].book_name, loanHistory[i].quantity);
   }
 } // 대출한 도서의 이름과 대출 수량을 출력
+
+// 도서 반납 함수
+void returnBook(struct library lib[], int count, struct loan_history loanHistory[], int* loanCount) {
+  char bk_nm[30];
+  int found = 0;
+
+  if (*loanCount == 0) {
+    printf("반납할 도서가 없습니다.\n");
+    return;  
+  }
+
+  printf("반납하려는 도서명을 입력하시오: ");
+  scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
+
+  for (int i = 0; i < *loanCount; i++) {
+    if (strcmp(bk_nm, loanHistory[i].book_name) == 0) {
+      for (int j = i; j < *loanCount - 1; j++) {
+        strcpy_s(loanHistory[j].book_name, 20, loanHistory[j + 1].book_name);
+        loanHistory[j].quantity = loanHistory[j + 1].quantity;
+      }
+      // 도서 반납 = 대출 구조체에서 삭제
+
+      (*loanCount)--; 
+      // 대출 수량 감소
+
+      for (int k = 0; k < count; k++) {
+        if (strcmp(bk_nm, lib[k].book_name) == 0) {
+          lib[k].quantity += 1;
+          break;
+        }
+      }
+      // 반납 도서 수량 증가
+      printf("도서 반납 완료\n");
+      found = 1;
+      break;
+    }
+  }
+
+  if (!found) {
+    printf(
+        "대출 기록에 해당 도서가 없습니다.\n"
+        "프로그램 처음으로 돌아갑니다\n\n");
+  }
+}
