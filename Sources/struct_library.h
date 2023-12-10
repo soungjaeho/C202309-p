@@ -11,7 +11,7 @@ struct library {
 };
 
 // 대출한 도서 정보 구조체(도서명 수량 )
-struct loan_history {
+struct loan_book {
   char book_name[20];
   int quantity;
 };

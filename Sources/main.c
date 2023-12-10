@@ -7,7 +7,7 @@
 
 int main() {
   struct library lib[100];
-  struct loan_history loanHistory[100];
+  struct loan_book loanBook[100];
   int i = 0;
   int count = 0;
   int input = 0;
@@ -29,6 +29,7 @@ int main() {
 
     printf("선택지를 입력하시오: ");
     scanf_s("%d", &input);
+    // 선택지 출력
 
     switch (input) {
       case 1:
@@ -44,13 +45,13 @@ int main() {
         displayBookCount(lib, count);
         break;
       case 5:
-        borrowBook(lib, count, loanHistory, &loanCount);
+        borrowBook(lib, count, loanBook, &loanCount);
         break;
       case 6:
-        displayBorrowedBooks(loanHistory, loanCount);
+        displayBorrowedBooks(loanBook, loanCount);
         break;
       case 7:
-        returnBook(lib, count, loanHistory, &loanCount);
+        returnBook(lib, count, loanBook, &loanCount);
         break;
       case 8:
         exit(0);

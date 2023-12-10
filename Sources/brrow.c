@@ -1,12 +1,12 @@
-// 도서 대출 함수
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "struct_library.h"
 #include "brrow.h"
 
-void borrowBook(struct library lib[], int count,
-                struct loan_history loanHistory[], int* loanCount) {
+// 도서 대출 함수
+void borrowBook(struct library lib[], int count, struct loan_book loanBook[],
+                int* loanCount) {
   char bk_nm[30];
   int found = 0;
   if (count == 0) {
@@ -22,9 +22,9 @@ void borrowBook(struct library lib[], int count,
       if (lib[i].quantity == 0) {
         printf("해당 도서는 전권 대출중입니다. \n"); // 수량이 0일때
       } else {
-        strcpy_s(loanHistory[*loanCount].book_name, 20, lib[i].book_name);
-        loanHistory[*loanCount].quantity = 0;  // 대출 수량 초기화
-        loanHistory[*loanCount].quantity += 1;
+        strcpy_s(loanBook[*loanCount].book_name, 20, lib[i].book_name);
+        loanBook[*loanCount].quantity = 0;  // 대출 수량 초기화
+        loanBook[*loanCount].quantity += 1;
 
         lib[i].quantity -= 1;
 
@@ -44,7 +44,7 @@ void borrowBook(struct library lib[], int count,
   }
 }
 // 대출 도서 출력함수
-void displayBorrowedBooks(struct loan_history loanHistory[], int loanCount) {
+void displayBorrowedBooks(struct loan_book loanBook[], int loanCount) {
   if (loanCount == 0) {
     printf("대출한 도서가 없습니다.\n");
     return;
@@ -53,12 +53,13 @@ void displayBorrowedBooks(struct loan_history loanHistory[], int loanCount) {
   printf("대출한 도서의 목록을 출력합니다.\n");
   for (int i = 0; i < loanCount; i++) {
     printf("%d . 대출 도서명: %s / 대출수량: %d \n", i + 1,
-           loanHistory[i].book_name, loanHistory[i].quantity);
+           loanBook[i].book_name, loanBook[i].quantity);
   }
 } // 대출한 도서의 이름과 대출 수량을 출력
 
 // 도서 반납 함수
-void returnBook(struct library lib[], int count, struct loan_history loanHistory[], int* loanCount) {
+void returnBook(struct library lib[], int count, struct loan_book loanBook[],
+                int* loanCount) {
   char bk_nm[30];
   int found = 0;
 
@@ -71,10 +72,10 @@ void returnBook(struct library lib[], int count, struct loan_history loanHistory
   scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
 
   for (int i = 0; i < *loanCount; i++) {
-    if (strcmp(bk_nm, loanHistory[i].book_name) == 0) {
+    if (strcmp(bk_nm, loanBook[i].book_name) == 0) {
       for (int j = i; j < *loanCount - 1; j++) {
-        strcpy_s(loanHistory[j].book_name, 20, loanHistory[j + 1].book_name);
-        loanHistory[j].quantity = loanHistory[j + 1].quantity;
+        strcpy_s(loanBook[j].book_name, 20, loanBook[j + 1].book_name);
+        loanBook[j].quantity = loanBook[j + 1].quantity;
       }
       // 도서 반납 = 대출 구조체에서 삭제
 
