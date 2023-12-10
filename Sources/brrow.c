@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "main_struct.h"
-#include "main_brrow.h"
+#include "struct_library.h"
+#include "brrow.h"
 
 void borrowBook(struct library lib[], int count,
                 struct loan_history loanHistory[], int* loanCount) {
@@ -12,14 +12,15 @@ void borrowBook(struct library lib[], int count,
   if (count == 0) {
     printf("현재 도서관에 저장되어 있는 도서가 없습니다.\n");
     return;
-  }
+  }// 도서관에 저장한 도서가 없을때
+
   printf("대출하려는 도서명을 입력하시오: ");
   scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
 
   for (int i = 0; i < count; i++) {
     if (strcmp(bk_nm, lib[i].book_name) == 0) {
       if (lib[i].quantity == 0) {
-        printf("해당 도서는 전권 대출중입니다. \n");
+        printf("해당 도서는 전권 대출중입니다. \n"); // 수량이 0일때
       } else {
         strcpy_s(loanHistory[*loanCount].book_name, 20, lib[i].book_name);
         loanHistory[*loanCount].quantity = 0;  // 대출 수량 초기화
@@ -42,15 +43,16 @@ void borrowBook(struct library lib[], int count,
         "프로그램 처음으로 돌아갑니다\n\n");
   }
 }
+// 대출 도서 출력함수
 void displayBorrowedBooks(struct loan_history loanHistory[], int loanCount) {
   if (loanCount == 0) {
     printf("대출한 도서가 없습니다.\n");
     return;
-  }
+  }// 대출한 도서가 없을때
 
   printf("대출한 도서의 목록을 출력합니다.\n");
   for (int i = 0; i < loanCount; i++) {
     printf("%d . 대출 도서명: %s / 대출수량: %d \n", i + 1,
            loanHistory[i].book_name, loanHistory[i].quantity);
   }
-}
+} // 대출한 도서의 이름과 대출 수량을 출력

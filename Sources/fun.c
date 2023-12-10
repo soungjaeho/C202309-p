@@ -3,15 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "fun.h"
-#include "main_struct.h"
+#include "struct_library.h"
 
-// 도서 추가 함수, 관리자 선택지(기본암호 123추가)
+// 도서 추가 함수, 관리자 선택지(관리자 암호 123추가)
 void addBook(struct library lib[], int* count) {
   int password;
   printf("관리자 암호를 입력하시오 : ");
   scanf_s("%d", &password);
 
-  if (password == 123) {
+  if (password == PASSWORD) {
     printf("도서의 이름을 입력하시오 : ");
     scanf_s("%s", lib[*count].book_name, (int)sizeof(lib[*count].book_name));
 
@@ -38,7 +38,8 @@ void addBook(struct library lib[], int* count) {
   } else {
     printf("올바르지 못한 암호입니다.\n\n");
   }
-}
+}// 도서 정보 입력  -> 도서명 작가명 장르 출판사 페이지 가격 수량
+
 
 // 보유 장르 확인 함수
 void displayGenres(struct library lib[], int count) {
@@ -57,12 +58,12 @@ void displayGenres(struct library lib[], int count) {
     }
 
     if (!genrePrinted) {
-      printf("%s\n", lib[j].fields);
+      printf("%d번 장르: %s\n", printedCount+1, lib[j].fields);
       strcpy_s(printedGenres[printedCount], 20, lib[j].fields);
       printedCount++;
     }
   }
-}
+} // 입력한 도서의 종류수만큼 반복 장르를 출력한 장르에 저장,  출력한적 없는 장르  = 출력, 출력한 장르 수 증가
 
 // 장르별 도서 확인 함수
 void displayBooksByGenre(struct library lib[], int count) {
@@ -97,7 +98,7 @@ void displayBooksByGenre(struct library lib[], int count) {
         "장르를 잘못 입력하셨습니다.\n"
         "프로그램 처음으로 돌아갑니다\n\n");
   }
-}
+}// 입력한 장르와 일치하는 도서의 정보를 출력
 
 // 도서 종류 수 확인 함수
 void displayBookCount(struct library lib[], int count) {
