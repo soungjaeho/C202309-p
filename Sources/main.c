@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "fun.h"
+#include "struct_library.h"
+#include "brrow.h"
 
 int main() {
   struct library lib[100];
