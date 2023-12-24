@@ -3,15 +3,17 @@
 #include <string.h>
 #include "fun.h"
 #include "struct_library.h"
-#include "brrow.h"
+#include "borrow.h"
+
 
 int main() {
-  struct library lib[100];
-  struct loan_book loanBook[100];
+  struct library lib[100]; // 도서관 구조체 배열
+  struct loan_book loanBook[100]; // 대출 도서 구조체 배열
   int i = 0;
   int count = 0;
   int input = 0;
   int loanCount = 0;
+  int input_output = 0;
 
   while (1) {
     printf("--------------------\n");
@@ -25,7 +27,8 @@ int main() {
         "5. 도서 대출 \n"
         "6. 대출한 도서 목록\n"
         "7. 도서 반납\n"
-        "8. 프로그램 종료\n\n");
+        "8. 도서 정보 파일 출력\n"
+        "9. 프로그램 종료\n\n");
 
     printf("선택지를 입력하시오: ");
     scanf_s("%d", &input);
@@ -54,6 +57,15 @@ int main() {
         returnBook(lib, count, loanBook, &loanCount);
         break;
       case 8:
+        printf("원하시는 파일 출력 형식을 지정해 주세요. \n\n"
+               "1. 텍스트 파일\n"
+               "2. 엑셀 파일\n\n"
+               "입력 : ");
+        scanf_s("%d", &input_output);
+        saveLibrary(lib, count,input_output);
+        saveLoanBooks(loanBook, loanCount, input_output);
+        break;
+      case 9:
         exit(0);
       default:
         printf(

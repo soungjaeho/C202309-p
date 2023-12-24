@@ -14,4 +14,5 @@ struct library {
 struct loan_book {
   char book_name[20];
   int quantity;
+  
 };

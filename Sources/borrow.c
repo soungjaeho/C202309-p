@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "struct_library.h"
-#include "brrow.h"
+#include "borrow.h"
 
 // 도서 대출 함수
 void borrowBook(struct library lib[], int count, struct loan_book loanBook[],
@@ -15,7 +15,9 @@ void borrowBook(struct library lib[], int count, struct loan_book loanBook[],
   }// 도서관에 저장한 도서가 없을때
 
   printf("대출하려는 도서명을 입력하시오: ");
-  scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
+  getchar();
+  scanf_s("%[^\n]", bk_nm, (int)sizeof(bk_nm));
+
 
   for (int i = 0; i < count; i++) {
     if (strcmp(bk_nm, lib[i].book_name) == 0) {
@@ -26,9 +28,9 @@ void borrowBook(struct library lib[], int count, struct loan_book loanBook[],
         loanBook[*loanCount].quantity = 0;  // 대출 수량 초기화
         loanBook[*loanCount].quantity += 1;
 
-        lib[i].quantity -= 1;
-
-        (*loanCount)++;
+        lib[i].quantity -= 1; // 도서 수량 -1
+        
+        (*loanCount)++; // 대출 수량 +1
 
         printf("대출 완료\n");
       }
@@ -69,7 +71,9 @@ void returnBook(struct library lib[], int count, struct loan_book loanBook[],
   }
 
   printf("반납하려는 도서명을 입력하시오: ");
-  scanf_s("%s", bk_nm, (int)sizeof(bk_nm));
+  getchar();
+  scanf_s("%[^\n]", bk_nm, (int)sizeof(bk_nm));
+  getchar();
 
   for (int i = 0; i < *loanCount; i++) {
     if (strcmp(bk_nm, loanBook[i].book_name) == 0) {
